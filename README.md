@@ -780,6 +780,59 @@ uvicorn main:app --reload --port 8000
 今回の環境ではSQLAlchemy 2.1.1の読み込み時にWindows側のDLL読み込みエラーが発生し、SQLAlchemy 2.0.52では正常に動作したため、このプロジェクトでは2.0.52を使用しています。
 
 ---
+## SQLAlchemyのDLLエラー
+
+GitHub上で、
+`frontend`
+が通常のフォルダとして表示されず、別のGitリポジトリへのリンクのような表示になることがあります。
+
+これは、`frontend`ディレクトリの別のGitリポジトリを示す.gitディレクトリが存在していることで生じます。
+
+例えば、以下のような状態です。
+```text
+webapp-practice/
+├── .git/              ← webapp-practiceのGit
+├── backend/
+├── frontend/
+│   ├── .git/          ← frontendにもGitがある
+│   ├── src/
+│   ├── public/
+│   └── package.json
+└── README.md
+```
+この状態では、Gitから見ると`frontend`は通常のディレクトリではなく、別のGitリポジトリとして扱われます。
+
+今回のプロジェクトでは、`webapp-practice`全体を1つのGitリポジトリとして管理するため、frontend側のGit管理は不要であるため、以下のコマンドを実行して`.git`を削除します。
+
+```text
+rm -rf frontend/.git
+```
+
+その後、
+
+```text
+git status
+```
+
+を確認します。
+
+必要に応じて、
+
+```text
+git add .
+```
+
+を実行します。
+
+その後、
+
+```text
+git status
+```
+
+を確認し、`frontend`の中身が通常のファイルとして認識されていればOKです。
+
+---
 
 # 15. GitHubへの公開
 
