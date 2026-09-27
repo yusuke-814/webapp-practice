@@ -780,7 +780,7 @@ uvicorn main:app --reload --port 8000
 今回の環境ではSQLAlchemy 2.1.1の読み込み時にWindows側のDLL読み込みエラーが発生し、SQLAlchemy 2.0.52では正常に動作したため、このプロジェクトでは2.0.52を使用しています。
 
 ---
-## SQLAlchemyのDLLエラー
+## GitHubで`frontend`がフォルダではなく別リポジトリのように表示される
 
 GitHub上で、
 `frontend`
