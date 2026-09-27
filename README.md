@@ -832,6 +832,81 @@ git status
 
 を確認し、`frontend`の中身が通常のファイルとして認識されていればOKです。
 
+### それでもGitHub上でリンク表示される場合
+
+`frontend/.git`を削除してもGitHub上で`frontend`がリンクのように表示される場合、親リポジトリのGit管理情報に、`frontend`が別リポジトリへの参照（gitlink）として登録されたままになっている可能性があります。
+
+まず、以下を実行して現在のGit管理状態を確認します。
+
+```text
+git ls-files --stage frontend
+```
+
+`160000`と表示された場合
+例えば、
+
+```text
+160000 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx 0    frontend
+```
+
+のように`160000`と表示された場合、`frontend`は通常のフォルダではなく、Gitのサブモジュールと同様のgitlinkとして登録されています。
+
+この場合は、いったん親リポジトリの管理対象から`frontend`を外します。
+
+```text
+git rm --cached -r frontend
+```
+
+続いて、`frontend`を通常のファイル・フォルダとして再登録します。
+
+```text
+git add frontend
+```
+
+その後、
+
+```text
+git status
+```
+
+を実行します。
+
+`frontend`の中にあるファイルが通常のファイルとして認識されていることを確認します。
+
+もう一度、
+
+```text
+git ls-files --stage frontend
+```
+
+を実行し、以下のように正常な状態であることを確認します。
+
+```text
+100644 xxxxxxxxx... frontend/.gitignore
+100644 xxxxxxxxx... frontend/package.json
+100644 xxxxxxxxx... frontend/src/...
+```
+
+問題が解決したことを確認したら、
+
+```text
+git add .
+```
+
+続いて、
+
+```text
+git commit -m "Fix frontend repository structure"
+```
+
+を実行します。
+
+その後、GitHubへpushします。
+
+```text
+git push
+```
+
 ---
 
 # 15. GitHubへの公開
